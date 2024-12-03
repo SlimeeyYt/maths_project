@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Math Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #FAD02E, #F28D35);
+            color: #333;
+        }
+
+        header {
+            background: #FF7F50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 5px solid #FF4500;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background: #FF6347;
+        }
+
+        nav a {
+            color: white;
+            padding: 16px 24px;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        nav a:hover {
+            background: #FF4500;
+            border-radius: 5px;
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #FF6347;
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        input, select, button {
+            margin: 10px 0;
+            padding: 15px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 2px solid #FF6347;
+            width: 100%;
+            transition: all 0.3s;
+        }
+
+        input:focus, select:focus {
+            border-color: #FF4500;
+            outline: none;
+        }
+
+        button {
+            background: #FF6347;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background: #FF4500;
+            transform: scale(1.05);
+        }
+
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: #FF6347;
+            color: white;
+            margin-top: 40px;
+            font-size: 14px;
+        }
+
+        /* For small screen adjustments */
+        @media (max-width: 768px) {
+            nav a {
+                padding: 12px 16px;
+            }
+
+            input, button {
+                font-size: 14px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Advanced Math Website</h1>
+    </header>
+    <nav>
+        <a href="#herons-formula">Heron's Formula</a>
+        <a href="#surface-area-volume">Surface Area & Volume</a>
+        <a href="#calculator">Calculator</a>
+    </nav>
+    <div class="container">
+        <div id="herons-formula" class="section">
+            <h2>Heron's Formula</h2>
+            <p>Enter the sides of the triangle:</p>
+            <input type="number" id="sideA" placeholder="Side A" />
+            <input type="number" id="sideB" placeholder="Side B" />
+            <input type="number" id="sideC" placeholder="Side C" />
+            <button onclick="calculateHeronsFormula()">Calculate Area</button>
+            <p class="result" id="heronsResult"></p>
+        </div>
+
+        <div id="surface-area-volume" class="section">
+            <h2>Surface Area & Volume</h2>
+            <p>Select Shape:</p>
+            <select id="shape" onchange="showShapeInputs()">
+                <option value="sphere">Sphere</option>
+                <option value="cube">Cube</option>
+                <option value="cuboid">Cuboid</option>
+                <option value="cylinder">Cylinder</option>
+                <option value="cone">Cone</option>
+            </select>
+            <div id="shapeInputs"></div>
+            <button onclick="calculateShapeProperties()">Calculate</button>
+            <p class="result" id="shapeResult"></p>
+        </div>
+
+        <div id="calculator" class="section">
+            <h2>Basic Math Calculator</h2>
+            <input type="number" id="num1" placeholder="Number 1" />
+            <input type="number" id="num2" placeholder="Number 2" />
+            <select id="operation">
+                <option value="add">Addition</option>
+                <option value="subtract">Subtraction</option>
+                <option value="multiply">Multiplication</option>
+                <option value="divide">Division</option>
+            </select>
+            <button onclick="performCalculation()">Calculate</button>
+            <p class="result" id="calcResult"></p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2024 Advanced Math Website. All rights reserved.</p>
+    </div>
+
+    <script>
+        function calculateHeronsFormula() {
+            const a = parseFloat(document.getElementById('sideA').value);
+            const b = parseFloat(document.getElementById('sideB').value);
+            const c = parseFloat(document.getElementById('sideC').value);
+            const s = (a + b + c) / 2;
+            const area = Math.sqrt(s * (s - a) * (s - b) * (s - c));
+            document.getElementById('heronsResult').textContent = `Area: ${area.toFixed(2)}`;
+        }
+
+        function showShapeInputs() {
+            const shape = document.getElementById('shape').value;
+            const shapeInputs = document.getElementById('shapeInputs');
+            let inputsHTML = '';
+
+            if (shape === 'sphere') {
+                inputsHTML = '<input type="number" id="radius" placeholder="Radius" required />';
+            } else if (shape === 'cube') {
+                inputsHTML = '<input type="number" id="side" placeholder="Side" required />';
+            } else if (shape === 'cuboid') {
+                inputsHTML = '<input type="number" id="length" placeholder="Length" required />\
+                             <input type="number" id="width" placeholder="Width" required />\
+                             <input type="number" id="height" placeholder="Height" required />';
+            } else if (shape === 'cylinder') {
+                inputsHTML = '<input type="number" id="radius" placeholder="Radius" required />\
+                             <input type="number" id="height" placeholder="Height" required />';
+            } else if (shape === 'cone') {
+                inputsHTML = '<input type="number" id="radius" placeholder="Radius" required />\
+                             <input type="number" id="height" placeholder="Height" required />';
+            }
+
+            shapeInputs.innerHTML = inputsHTML;
+        }
+
+        function calculateShapeProperties() {
+            const shape = document.getElementById('shape').value;
+            let result = '';
+
+            let isValid = true;
+            const inputs = document.querySelectorAll('#shapeInputs input');
+            inputs.forEach(input => {
+                if (input.value === '' || input.value <= 0) {
+                    isValid = false;
+                }
+            });
+
+            if (!isValid) {
+                document.getElementById('shapeResult').textContent = 'Please provide valid values for all inputs.';
+                return;
+            }
+
+            if (shape === 'sphere') {
+                const radius = parseFloat(document.getElementById('radius').value);
+                const surfaceArea = 4 * Math.PI * Math.pow(radius, 2);
+                const volume = (4 / 3) * Math.PI * Math.pow(radius, 3);
+                result = `Surface Area: ${surfaceArea.toFixed(2)}, Volume: ${volume.toFixed(2)}`;
+            } else if (shape === 'cube') {
+                const side = parseFloat(document.getElementById('side').value);
+                const surfaceArea = 6 * Math.pow(side, 2);
+                const volume = Math.pow(side, 3);
+                result = `Surface Area: ${surfaceArea.toFixed(2)}, Volume: ${volume.toFixed(2)}`;
+            } else if (shape === 'cuboid') {
+                const length = parseFloat(document.getElementById('length').value);
+                const width = parseFloat(document.getElementById('width').value);
+                const height = parseFloat(document.getElementById('height').value);
+                const surfaceArea = 2 * (length * width + width * height + height * length);
+                const volume = length * width * height;
+                result = `Surface Area: ${surfaceArea.toFixed(2)}, Volume: ${volume.toFixed(2)}`;
+            } else if (shape === 'cylinder') {
+                const radius = parseFloat(document.getElementById('radius').value);
+                const height = parseFloat(document.getElementById('height').value);
+                const surfaceArea = 2 * Math.PI * radius * (radius + height);
+                const volume = Math.PI * Math.pow(radius, 2) * height;
+                result = `Surface Area: ${surfaceArea.toFixed(2)}, Volume: ${volume.toFixed(2)}`;
+            } else if (shape === 'cone') {
+                const radius = parseFloat(document.getElementById('radius').value);
+                const height = parseFloat(document.getElementById('height').value);
+                const slantHeight = Math.sqrt(Math.pow(radius, 2) + Math.pow(height, 2));
+                const surfaceArea = Math.PI * radius * (radius + slantHeight);
+                const volume = (1 / 3) * Math.PI * Math.pow(radius, 2) * height;
+                result = `Surface Area: ${surfaceArea.toFixed(2)}, Volume: ${volume.toFixed(2)}`;
+            }
+
+            document.getElementById('shapeResult').textContent = result;
+        }
+
+        function performCalculation() {
+            const num1 = parseFloat(document.getElementById('num1').value);
+            const num2 = parseFloat(document.getElementById('num2').value);
+            const operation = document.getElementById('operation').value;
+            let result = '';
+
+            if (operation === 'add') {
+                result = num1 + num2;
+            } else if (operation === 'subtract') {
+                result = num1 - num2;
+            } else if (operation === 'multiply') {
+                result = num1 * num2;
+            } else if (operation === 'divide') {
+                if (num2 !== 0) {
+                    result = num1 / num2;
+                } else {
+                    result = 'Cannot divide by zero';
+                }
+            }
+
+            document.getElementById('calcResult').textContent = `Result: ${result}`;
+        }
+    </script>
+</body>
+</html>
